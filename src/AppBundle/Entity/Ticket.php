@@ -36,6 +36,13 @@ class Ticket
     private $lastName;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=255)
+     */
+    private $country;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="date")
@@ -185,5 +192,29 @@ class Ticket
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * Set country.
+     *
+     * @param string $country
+     *
+     * @return Ticket
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }

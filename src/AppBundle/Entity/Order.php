@@ -71,6 +71,12 @@ class Order
     private $amount;
 
 
+    public function __construct()
+    {
+        $this->bookingDate = new \DateTime();
+        $this->type = "Journée Entière";
+    }
+
     /**
      * Get id.
      *
