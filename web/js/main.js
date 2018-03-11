@@ -4,7 +4,7 @@ jQuery(function($){
     $('.picker').datepicker({
     	minDate: 0,
     	beforeShowDay: function(date){
-    		if(date.getDay() == 0){
+    		if(date.getDay() == 2){
     			return [false, ""];	
     		}else{
     			return [true, ""];

@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class OrderType extends AbstractType
 {
@@ -21,11 +24,27 @@ class OrderType extends AbstractType
                   'model_timezone' => 'Europe/Paris',
                   'format' => 'dd-MM-yyyy', 
                   'attr' => array('class' => 'picker')))
-                ->add('type', ChoiceType::class, array(
-                  'choices' => array('Journée entière' => 'Journée Entière', 'Demi-journée' => 'Demi-Journée'), 
+                ->add('fullDay', ChoiceType::class, array(
+                  'choices' => array('Journée entière' => true, 'Demi-journée' => false), 
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
-                  'choices' => range(0, 5)));
+                  'choices' => range(0, 5),
+                  'mapped' => false))
+                ->add('Continuer', SubmitType::class);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+          $order = $event->getData();
+
+          if($order === null)
+          {
+            return;
+          }
+
+          if(!$order->getFullDay())
+          {
+            $event->getForm()->add('fullDay', ChoiceType::class, array('choices' => array('Demi-journée' => false), 'expanded' => true));
+          }
+        });
     }/**
      * {@inheritdoc}
      */

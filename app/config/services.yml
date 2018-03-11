@@ -33,3 +33,15 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    appbundle.dateservice:
+        class: AppBundle\DateService\DateService
+        public: true
+
+    appbundle.email.order:
+        class: AppBundle\Email\OrderMailer
+        arguments:
+            - "@mailer"
+        public: true
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

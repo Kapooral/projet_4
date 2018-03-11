@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Order
@@ -24,7 +26,7 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="orderCode", type="string", length=255)
+     * @ORM\Column(name="orderCode", type="string", length=255, unique=true)
      */
     private $orderCode;
 
@@ -32,6 +34,8 @@ class Order
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(checkMX=true, message="Adresse e-mail invalide")
+     * @Assert\Length(max=70, maxMessage="Votre adresse e-mail ne peut excéder {{ limit }} caractères.")
      */
     private $email;
 
@@ -39,37 +43,37 @@ class Order
      * @var \DateTime
      *
      * @ORM\Column(name="bookingDate", type="date")
+     * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $bookingDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="cgv", type="boolean")
-     */
-    private $cgv;
 
     /**
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
      */
-    private $quantity;
+    private $nbTicket = 0;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="amount", type="integer")
+     * @ORM\Column(name="fullDay", type="boolean")
+     * @Assert\Type(type="bool", message="Votre choix est incorrect.")
      */
-    private $amount;
+    private $fullDay;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order")
+     */
+    private $tickets;
+
+
+    public function __construct()
+    {
+        $this->bookingDate = new \DateTime();
+        $this->fullDay = true;
+        $this->tickets = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -153,27 +157,42 @@ class Order
         return $this->bookingDate;
     }
 
+    public function increaseTicket()
+    {
+        $this->nbTicket++;
+    }
+
     /**
-     * Set cgv.
+     * Get nbTicket.
      *
-     * @param bool $cgv
+     * @return int
+     */
+    public function getNbTicket()
+    {
+        return $this->nbTicket;
+    }
+
+    /**
+     * Set fullDay.
+     *
+     * @param bool $fullDay
      *
      * @return Order
      */
-    public function setCgv($cgv)
+    public function setFullDay($fullDay)
     {
-        $this->cgv = $cgv;
+        $this->fullDay = $fullDay;
 
         return $this;
     }
 
     /**
-     * Get cgv.
+     * Get fullDay.
      *
      * @return bool
      */
-    public function getCgv()
+    public function getFullDay()
     {
-        return $this->cgv;
+        return $this->fullDay;
     }
 }

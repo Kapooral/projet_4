@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Order
@@ -32,6 +34,8 @@ class Order
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email(checkMX=true, message="Adresse e-mail invalide")
+     * @Assert\Length(max=70, maxMessage="Votre adresse e-mail ne peut excéder {{ limit }} caractères.")
      */
     private $email;
 
@@ -39,42 +43,36 @@ class Order
      * @var \DateTime
      *
      * @ORM\Column(name="bookingDate", type="date")
+     * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $bookingDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="cgv", type="boolean")
-     */
-    private $cgv;
 
     /**
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
      */
-    private $quantity;
+    private $nbTicket = 0;
 
     /**
-     * @var int
+     * @var bool
      *
-     * @ORM\Column(name="amount", type="integer")
+     * @ORM\Column(name="fullDay", type="boolean")
+     * @Assert\Type(type="bool", message="Votre choix est incorrect.")
      */
-    private $amount;
+    private $fullDay;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order")
+     */
+    private $tickets;
 
 
     public function __construct()
     {
         $this->bookingDate = new \DateTime();
-        $this->type = "Journée Entière";
+        $this->fullDay = true;
+        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -160,98 +158,93 @@ class Order
     }
 
     /**
-     * Set cgv.
+     * Set nbTicket.
      *
-     * @param bool $cgv
+     * @param int $nbTicket
      *
      * @return Order
      */
-    public function setCgv($cgv)
+    public function setNbTicket($nbTicket)
     {
-        $this->cgv = $cgv;
+        $this->nbTicket = $nbTicket;
 
         return $this;
     }
 
     /**
-     * Get cgv.
+     * Get nbTicket.
+     *
+     * @return int
+     */
+    public function getNbTicket()
+    {
+        return $this->nbTicket;
+    }
+
+    public function increaseTicket()
+    {
+        $this->nbTicket++;
+    }
+
+    /**
+     * Set fullDay.
+     *
+     * @param bool $fullDay
+     *
+     * @return Order
+     */
+    public function setFullDay($fullDay)
+    {
+        $this->fullDay = $fullDay;
+
+        return $this;
+    }
+
+    /**
+     * Get fullDay.
      *
      * @return bool
      */
-    public function getCgv()
+    public function getFullDay()
     {
-        return $this->cgv;
+        return $this->fullDay;
     }
 
     /**
-     * Set type.
+     * Add ticket.
      *
-     * @param string $type
+     * @param \AppBundle\Entity\Ticket $ticket
      *
      * @return Order
      */
-    public function setType($type)
+    public function addTicket(\AppBundle\Entity\Ticket $ticket)
     {
-        $this->type = $type;
+        $ticket->setOrder($this);
+        
+        $this->tickets[] = $ticket;
 
         return $this;
     }
 
     /**
-     * Get type.
+     * Remove ticket.
      *
-     * @return string
+     * @param \AppBundle\Entity\Ticket $ticket
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getType()
+    public function removeTicket(\AppBundle\Entity\Ticket $ticket)
     {
-        return $this->type;
+        return $this->tickets->removeElement($ticket);
     }
 
     /**
-     * Set quantity.
+     * Get tickets.
      *
-     * @param int $quantity
-     *
-     * @return Order
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setQuantity($quantity)
+    public function getTickets()
     {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity.
-     *
-     * @return int
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * Set amount.
-     *
-     * @param int $amount
-     *
-     * @return Order
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Get amount.
-     *
-     * @return int
-     */
-    public function getAmount()
-    {
-        return $this->amount;
+        return $this->tickets;
     }
 }
