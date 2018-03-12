@@ -23,7 +23,7 @@ class DefaultController extends Controller
 
     public function bookingAction(Request $request)
     {
-    	$dateService = $this->container->get('appbundle.dateservice');
+    	$dateService = $this->container->get('appbundle.date_service');
     	$order = new Order();
 
     	if(!$dateService->isFullDay())
@@ -56,7 +56,7 @@ class DefaultController extends Controller
 
     	if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
-    		return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order')));
+    		return $this->redirectToRoute('app_summary');
     	}
 
     	return $this->render('info.html.twig', array('form' => $form->createView()));
@@ -64,26 +64,9 @@ class DefaultController extends Controller
 
     public function summaryAction(Request $request)
     {
-    	
-    	$dateService = new DateService();
+    	$orderPrice = $this->container->get('appbundle.order_price');
+    	$totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order'));
 
-    	$tickets = $request->getSession()->get('order')->getTickets();
-
-    	foreach($tickets as $ticket)
-    	{
-    		/*
-
-
-			-----------------------------------------------------------------------------
-
-			ICI SE TROUVE LE SERVICE DE CALCUL DU PRIX DU BILLET
-
-			-----------------------------------------------------------------------------
-
-
-    		*/
-    	}
-
-    	return $this->render('summary.html.twig', array('interval' => $hours));
+    	return $this->render('summary.html.twig', array('price' => $totalPrice, 'order' => $request->getSession()->get('order')));
     }
 }

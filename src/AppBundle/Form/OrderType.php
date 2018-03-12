@@ -28,7 +28,7 @@ class OrderType extends AbstractType
                   'choices' => array('Journée entière' => true, 'Demi-journée' => false), 
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
-                  'choices' => range(0, 5),
+                  'choices' => range(0, 8),
                   'mapped' => false))
                 ->add('Continuer', SubmitType::class);
 

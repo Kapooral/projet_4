@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
  *
  * @ORM\Table(name="ticket")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TicketRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Ticket
 {
@@ -25,6 +27,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\Length(min=2, max=50, minMessage="Le prénom doit être de {{ limit }} caractères minimum.", maxMessage="Le prénom ne peut excéder {{ limit }} caractères.")
      */
     private $name;
 
@@ -32,6 +35,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
+     * @Assert\Length(min=2, max=50, minMessage="Le nom doit être de {{ limit }} caractères minimum.", maxMessage="Le nom ne peut excéder {{ limit }} caractères.")
      */
     private $lastName;
 
@@ -39,6 +43,8 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\Type(type="string", message="Erreur sur le pays.")
+     * @Assert\Length(min=2, max=5, minMessage="Erreur sur le pays.", maxMessage="Erreur sur le pays.")
      */
     private $country;
 
@@ -46,6 +52,7 @@ class Ticket
      * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="date")
+     * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $birthDate;
 
@@ -54,11 +61,26 @@ class Ticket
      *
      * @ORM\Column(name="reducePrice", type="boolean")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Type(type="bool", message="Erreur sur la case prix réduit.")
      */
     private $reducePrice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order")
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="tickets")
      * @ORM\JoinColumn(name="order_code", referencedColumnName="orderCode", nullable=false)
      */
     private $order;
@@ -192,5 +214,37 @@ class Ticket
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * Set country.
+     *
+     * @param string $country
+     *
+     * @return Ticket
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get country.
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $this->getOrder()->increaseTicket();
     }
 }

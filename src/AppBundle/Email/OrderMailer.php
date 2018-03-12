@@ -28,7 +28,7 @@ class OrderMailer
 							  'Prénom : ' . $ticket->getName() . '\r\r');
 		}
 		
-		$message->setTo($order->getemail());
+		$message->setTo($order->getEmail());
 		$message->setFrom('kapooral.b@gmail.com');
 
 		$this->mailer->send($message);

@@ -66,6 +66,20 @@ class Ticket
     private $reducePrice;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="tickets")
      * @ORM\JoinColumn(name="order_code", referencedColumnName="orderCode", nullable=false)
      */
@@ -232,5 +246,53 @@ class Ticket
     public function increase()
     {
         $this->getOrder()->increaseTicket();
+    }
+
+    /**
+     * Set type.
+     *
+     * @param string $type
+     *
+     * @return Ticket
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set price.
+     *
+     * @param int $price
+     *
+     * @return Ticket
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price.
+     *
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

@@ -34,14 +34,25 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    appbundle.dateservice:
+    appbundle.date_service:
         class: AppBundle\DateService\DateService
         public: true
 
-    appbundle.email.order:
+    appbundle.order_mailer:
         class: AppBundle\Email\OrderMailer
         arguments:
             - "@mailer"
         public: true
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+
+    appbundle.order_price:
+        class: AppBundle\OrderPrice\OrderPrice
+        arguments:
+            - "@appbundle.date_service"
+            - '%baby%'
+            - '%child%'
+            - '%normal%'
+            - '%senior%'
+            - '%reduce%'
+        public: true

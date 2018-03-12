@@ -7,6 +7,11 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    baby: 0
+    child: 8
+    normal: 16
+    senior: 12
+    reduce: 10
 
 framework:
     #esi: ~
