@@ -59,8 +59,7 @@ class Ticket
     /**
      * @var bool
      *
-     * @ORM\Column(name="reducePrice", type="boolean")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(name="reducePrice", type="boolean", nullable=true)
      * @Assert\Type(type="bool", message="Erreur sur la case prix réduit.")
      */
     private $reducePrice;
@@ -238,14 +237,6 @@ class Ticket
     public function getCountry()
     {
         return $this->country;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function increase()
-    {
-        $this->getOrder()->increaseTicket();
     }
 
     /**

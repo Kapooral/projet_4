@@ -1,11 +1,7 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
-
-app_booking:
-    path:      /booking
+app_index:
+    path:     /index
     defaults:
-      _controller: AppBundle:Default:booking
+      _controller: AppBundle:Default:index
 
 app_info:
     path:      /info
@@ -16,3 +12,8 @@ app_summary:
     path:      /summary
     defaults:
       _controller: AppBundle:Default:summary
+
+app_confirmation:
+    path:      /confirmation
+    defaults:
+      _controller: AppBundle:Default:confirmation

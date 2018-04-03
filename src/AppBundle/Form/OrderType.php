@@ -23,12 +23,12 @@ class OrderType extends AbstractType
                   'html5' => false, 
                   'model_timezone' => 'Europe/Paris',
                   'format' => 'dd-MM-yyyy', 
-                  'attr' => array('class' => 'picker')))
+                  'attr' => array('class' => 'picker', 'onFocus' => 'this.blur()')))
                 ->add('fullDay', ChoiceType::class, array(
                   'choices' => array('Journée entière' => true, 'Demi-journée' => false), 
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
-                  'choices' => range(0, 8),
+                  'choices' => array_combine(range(1,10), range(1,10)),
                   'mapped' => false))
                 ->add('Continuer', SubmitType::class);
 

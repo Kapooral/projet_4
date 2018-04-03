@@ -1,17 +1,19 @@
-<!DOCTYPE html>
+{% extends "::index.html.twig" %}
 
-<html>
-	<head>
-		<title>Informations</title>
-		<meta charset = "utf-8"> 
-	</head>
-
-	<body>
-		<div>
-			{{ form(form) }}
-		</div>
-		<div>
-			
-		</div>
-	</body>
-</html>
+{% block form %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Informations</h2>
+                <hr class="my-4">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 mt-5">
+            	{{ form(form ) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -19,17 +19,13 @@ class OrderMailer
 
 	public function sendNewEmail(Order $order)
 	{
-		$tickets = $order->getTickets();
-		$message = new \Swift_Mailer('Billet(s) Musée du Louvre');
-
-		foreach($tickets as $ticket)
-		{
-			$message->addPart('Nom : ' . $ticket->getLastName() . '\r' .
-							  'Prénom : ' . $ticket->getName() . '\r\r');
-		}
-		
-		$message->setTo($order->getEmail());
-		$message->setFrom('kapooral.b@gmail.com');
+		$message = (new \Swift_Message('Billet(s) Musée du Louvre'))
+		    ->setFrom('kapooral.b@gmail.com')
+		    ->setTo($order->getEmail())
+		    ->setBody(
+		    	$this->renderView(
+		    		'app/Resources/views/Emails/template.html.twig', array('order' => $order)
+		    	), 'text/html');
 
 		$this->mailer->send($message);
 	}
@@ -38,7 +34,7 @@ class OrderMailer
 	{
 		$entity = $args->getObject();
 
-		if(!entity instanceof Order)
+		if(!$entity instanceof Order)
 		{
 			return;
 		}

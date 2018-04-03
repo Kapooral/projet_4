@@ -15,17 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Order
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var string
      *
+     * @ORM\Id
      * @ORM\Column(name="orderCode", type="string", length=255, unique=true)
      */
     private $orderCode;
@@ -42,17 +34,10 @@ class Order
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="bookingDate", type="date")
+     * @ORM\Column(name="booking_date", type="date")
      * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $bookingDate;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="quantity", type="integer")
-     */
-    private $nbTicket = 0;
 
     /**
      * @var bool
@@ -63,9 +48,16 @@ class Order
     private $fullDay;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order", cascade={"persist"})
      */
     private $tickets;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity;
 
 
     public function __construct()
@@ -73,16 +65,6 @@ class Order
         $this->bookingDate = new \DateTime();
         $this->fullDay = true;
         $this->tickets = new ArrayCollection();
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -155,35 +137,6 @@ class Order
     public function getBookingDate()
     {
         return $this->bookingDate;
-    }
-
-    /**
-     * Set nbTicket.
-     *
-     * @param int $nbTicket
-     *
-     * @return Order
-     */
-    public function setNbTicket($nbTicket)
-    {
-        $this->nbTicket = $nbTicket;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTicket.
-     *
-     * @return int
-     */
-    public function getNbTicket()
-    {
-        return $this->nbTicket;
-    }
-
-    public function increaseTicket()
-    {
-        $this->nbTicket++;
     }
 
     /**

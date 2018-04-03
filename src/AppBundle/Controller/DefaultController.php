@@ -13,18 +13,10 @@ use AppBundle\Form\TicketType;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render('index.html.twig');
-    }
-
-    public function bookingAction(Request $request)
-    {
+        $order = new Order();
     	$dateService = $this->container->get('appbundle.date_service');
-    	$order = new Order();
 
     	if(!$dateService->isFullDay())
     	{
@@ -43,7 +35,9 @@ class DefaultController extends Controller
     			$order->addTicket($ticket);
     		}
 
-    		$request->getSession()->set('order', $order);
+    		$order->setOrderCode(bin2hex(random_bytes(5)));
+			$request->getSession()->set('order', $order);
+
     		return $this->redirectToRoute('app_info');
     	}
 
@@ -52,11 +46,25 @@ class DefaultController extends Controller
 
     public function infoAction(Request $request)
     {
+    	if(!$request->getSession()->has('order') || $request->getSession()->get('order')->getOrderCode() == null)
+    	{
+    		$request->getSession()->clear();
+    		return $this->redirectToRoute('app_booking');
+    	}
+
     	$form = $this->createForm(OrderChildType::class, $request->getSession()->get('order'));
 
     	if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
-    		return $this->redirectToRoute('app_summary');
+    		if(!$form->get('cgv')->getData())
+    		{
+    			$request->getSession()->clear();
+    			return $this->redirectToRoute('app_booking');
+    		}
+    		else
+    		{
+    			return $this->redirectToRoute('app_summary');
+    		}
     	}
 
     	return $this->render('info.html.twig', array('form' => $form->createView()));
@@ -64,9 +72,44 @@ class DefaultController extends Controller
 
     public function summaryAction(Request $request)
     {
-    	$orderPrice = $this->container->get('appbundle.order_price');
-    	$totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order'));
+    	if(!$request->getSession()->has('order') || $request->getSession()->get('order')->getOrderCode() == null)
+    	{
+    		$request->getSession()->clear();
+    		return $this->redirectToRoute('app_booking');
+    	}
+    	elseif($request->getSession()->get('order')->getEmail() == null)
+    	{
+    		return $this->redirectToRoute('app_info');
+    	}
+    	elseif($request->isMethod('POST'))
+    	{
+    		$orderPrice = $this->container->get('appbundle.order_price');
+    		$totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order')) * 100;
+    		\Stripe\Stripe::setApiKey('sk_test_Ce6DBxnu8smTNyzF2TokYRIO');
 
-    	return $this->render('summary.html.twig', array('price' => $totalPrice, 'order' => $request->getSession()->get('order')));
+    		try
+    		{
+	    		\Stripe\Charge::create(array(
+	    			"amount" => $totalPrice,
+	    			"currency" => 'eur',
+	    			"description" => 'Billet(s) Musée du Louvre',
+	    			"source" => $request->request->get('stripeToken')
+	    		));
+    		} 
+    		catch (\Stripe\Error\Card $e)
+    		{
+    			return $this->redirectToRoute('app_summary');
+    		}
+
+    		return $this->redirectToRoute('app_confirmation');
+    	}
+
+    	return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order')));
     }
+
+    public function confirmationAction()
+    {
+    	return $this->redirectToRoute('app_index');
+    }
+
 }
