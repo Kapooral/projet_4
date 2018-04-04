@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * OrderRepository
  *
@@ -10,4 +13,27 @@ namespace AppBundle\Repository;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function isOverbooking($date)
+	{
+		$nbTickets = 0;
+
+		$queryBuilder = $this->createQueryBuilder('o');
+		$queryBuilder->where('o.bookingDate = :bookingDate')->setParameter('bookingDate', $date);
+		$orderList = $queryBuilder->getQuery()->getArrayResult();
+
+		foreach($orderList as $order)
+		{
+			$nbTickets += $order['quantity'];
+		}
+
+		if($nbTickets >= 1000)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }

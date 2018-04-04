@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Order
  *
  * @ORM\Table(name="`order`")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
+ * @UniqueEntity(fields="orderCode", message = "Une autre commande comporte déjà ce code de réservation. Veuillez recommencer.")
  */
 class Order
 {
@@ -34,7 +36,7 @@ class Order
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="booking_date", type="date")
+     * @ORM\Column(name="bookingDate", type="date")
      * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $bookingDate;
@@ -42,10 +44,10 @@ class Order
     /**
      * @var bool
      *
-     * @ORM\Column(name="fullDay", type="boolean")
+     * @ORM\Column(name="whole_day", type="boolean")
      * @Assert\Type(type="bool", message="Votre choix est incorrect.")
      */
-    private $fullDay;
+    private $wholeDay;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order", cascade={"persist"})
@@ -64,7 +66,7 @@ class Order
     public function __construct()
     {
         $this->bookingDate = new \DateTime();
-        $this->fullDay = true;
+        $this->wholeDay = true;
         $this->tickets = new ArrayCollection();
     }
 
@@ -141,27 +143,27 @@ class Order
     }
 
     /**
-     * Set fullDay.
+     * Set wholeDay.
      *
-     * @param bool $fullDay
+     * @param bool $wholeDay
      *
      * @return Order
      */
-    public function setFullDay($fullDay)
+    public function setWholeDay($wholeDay)
     {
-        $this->fullDay = $fullDay;
+        $this->wholeDay = $wholeDay;
 
         return $this;
     }
 
     /**
-     * Get fullDay.
+     * Get wholeDay.
      *
      * @return bool
      */
-    public function getFullDay()
+    public function getWholeDay()
     {
-        return $this->fullDay;
+        return $this->wholeDay;
     }
 
     /**
@@ -200,5 +202,29 @@ class Order
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set quantity.
+     *
+     * @param int $quantity
+     *
+     * @return Order
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity.
+     *
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 }

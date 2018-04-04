@@ -20,16 +20,14 @@ class DefaultController extends Controller
 
     	if(!$dateService->isFullDay())
     	{
-    		$order->setFullDay(false);
+    		$order->setWholeDay(false);
     	}
 
     	$form = $this->createForm(OrderType::class, $order);
 
     	if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
-    		$quantity = $form->get('quantity')->getData();
-
-    		for($i = 0; $i < $quantity; $i++)
+    		for($i = 0; $i < $order->getQuantity(); $i++)
     		{
     			$ticket = new Ticket();
     			$order->addTicket($ticket);
@@ -107,8 +105,13 @@ class DefaultController extends Controller
     	return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order')));
     }
 
-    public function confirmationAction()
+    public function confirmationAction(Request $request)
     {
+    	$em = $this->getDoctrine()->getManager();
+    	$em->persist($request->getSession()->get('order'));
+    	$em->flush();
+
+    	$request->getSession()->clear();
     	return $this->redirectToRoute('app_index');
     }
 

@@ -34,7 +34,7 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=255)
+     * @ORM\Column(name="last_name", type="string", length=255)
      * @Assert\Length(min=2, max=50, minMessage="Le nom doit être de {{ limit }} caractères minimum.", maxMessage="Le nom ne peut excéder {{ limit }} caractères.")
      */
     private $lastName;
@@ -51,7 +51,7 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthDate", type="date")
+     * @ORM\Column(name="birth_date", type="date")
      * @Assert\DateTime(message="Le format de la date est incorrect.")
      */
     private $birthDate;
@@ -59,7 +59,7 @@ class Ticket
     /**
      * @var bool
      *
-     * @ORM\Column(name="reducePrice", type="boolean", nullable=true)
+     * @ORM\Column(name="reduce_price", type="boolean", nullable=true)
      * @Assert\Type(type="bool", message="Erreur sur la case prix réduit.")
      */
     private $reducePrice;

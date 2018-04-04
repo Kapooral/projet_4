@@ -14,7 +14,7 @@ class OrderChildType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('bookingDate')
-                ->remove('fullDay')
+                ->remove('wholeDay')
                 ->remove('quantity')
                 ->add('tickets', CollectionType::class, array(
                 	'entry_type' => TicketType::class))

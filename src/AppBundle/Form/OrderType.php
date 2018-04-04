@@ -24,12 +24,11 @@ class OrderType extends AbstractType
                   'model_timezone' => 'Europe/Paris',
                   'format' => 'dd-MM-yyyy', 
                   'attr' => array('class' => 'picker', 'onFocus' => 'this.blur()')))
-                ->add('fullDay', ChoiceType::class, array(
+                ->add('wholeDay', ChoiceType::class, array(
                   'choices' => array('Journée entière' => true, 'Demi-journée' => false), 
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
-                  'choices' => array_combine(range(1,10), range(1,10)),
-                  'mapped' => false))
+                  'choices' => array_combine(range(1,10), range(1,10))))
                 ->add('Continuer', SubmitType::class);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
@@ -40,9 +39,9 @@ class OrderType extends AbstractType
             return;
           }
 
-          if(!$order->getFullDay())
+          if(!$order->getWholeDay())
           {
-            $event->getForm()->add('fullDay', ChoiceType::class, array('choices' => array('Demi-journée' => false), 'expanded' => true));
+            $event->getForm()->add('wholeDay', ChoiceType::class, array('choices' => array('Demi-journée' => false), 'expanded' => true));
           }
         });
     }/**
