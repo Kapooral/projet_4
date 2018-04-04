@@ -49,6 +49,7 @@ class Order
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Ticket", mappedBy="order", cascade={"persist"})
+     * @Assert\Valid()
      */
     private $tickets;
 
