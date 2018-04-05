@@ -34,6 +34,12 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    appbundle.validator.overbooking:
+        class: AppBundle\Validator\OverbookingValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        public: true
+
     appbundle.date_service:
         class: AppBundle\DateService\DateService
         public: true
