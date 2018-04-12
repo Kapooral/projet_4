@@ -61,7 +61,7 @@ class Order
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
-     * @Asset\Type("integer")
+     * @Assert\Type("integer")
      */
     private $quantity;
 
