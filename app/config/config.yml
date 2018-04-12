@@ -12,6 +12,7 @@ parameters:
     normal: 16
     senior: 12
     reduce: 10
+    limit: 1000
 
 framework:
     #esi: ~

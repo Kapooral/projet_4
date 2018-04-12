@@ -38,6 +38,7 @@ services:
         class: AppBundle\Validator\OverbookingValidator
         arguments:
             - "@doctrine.orm.entity_manager"
+            - '%limit%'
         public: true
 
     appbundle.date_service:

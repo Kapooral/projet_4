@@ -26,14 +26,6 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
 			$nbTickets += $order['quantity'];
 		}
 
-		if($nbTickets >= 1000)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return $nbTickets;
 	}
-
 }
