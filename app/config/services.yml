@@ -41,6 +41,13 @@ services:
             - '%limit%'
         public: true
 
+    appbundle.validator.remaining:
+        class: AppBundle\Validator\RemainingValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - '%limit%'
+        public: true
+
     appbundle.date_service:
         class: AppBundle\DateService\DateService
         public: true

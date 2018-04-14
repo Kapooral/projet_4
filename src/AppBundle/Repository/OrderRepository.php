@@ -13,7 +13,7 @@ use Doctrine\ORM\QueryBuilder;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function isOverbooking($date)
+	public function countTickets($date)
 	{
 		$nbTickets = 0;
 

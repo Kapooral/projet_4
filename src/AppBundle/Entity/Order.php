@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Validator\Overbooking;
+use AppBundle\Validator\Remaining;
 
 /**
  * Order
@@ -62,6 +63,7 @@ class Order
      *
      * @ORM\Column(name="quantity", type="integer")
      * @Assert\Type("integer")
+     * @Remaining
      */
     private $quantity;
 

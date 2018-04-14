@@ -1,6 +1,6 @@
 <?php 
 
-// src/AppBundle/Validator/OverbookingValidator.php
+// src/AppBundle/Validator/RemainingValidator.php
 
 namespace AppBundle\Validator;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class OverbookingValidator extends ConstraintValidator
+class RemainingValidator extends ConstraintValidator
 {
 	private $em;
 	private $limit;
@@ -21,11 +21,12 @@ class OverbookingValidator extends ConstraintValidator
 
 	public function validate($value, Constraint $constraint)
 	{
-		$nbTickets = $this->em->getRepository('AppBundle:Order')->countTickets($value);
+		$order = $this->context->getObject();
+		$value += $this->em->getRepository('AppBundle:Order')->countTickets($order->getBookingDate());
 
-		if($nbTickets >= $this->limit)
+		if($value > $this->limit)
 		{
-			$this->context->addViolation($constraint->message);	
+			$this->context->addViolation($constraint->message);
 		}
 	}
 }
