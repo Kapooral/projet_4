@@ -11,22 +11,18 @@ class OrderMailer
 	 * @var \Swift_Mailer
 	 */
 	private $mailer;
+	private $from;
 
-	public function __construct(\Swift_Mailer $mailer)
+	public function __construct(\Swift_Mailer $mailer, $from)
 	{
 		$this->mailer = $mailer;
+		$this->from = $from;
 	}
 
 	public function sendNewEmail(Order $order)
 	{
-		$message = (new \Swift_Message('Billet(s) Musée du Louvre'))
-		    ->setFrom('kapooral.b@gmail.com')
-		    ->setTo($order->getEmail())
-		    ->setBody(
-		    	$this->renderView(
-		    		'app/Resources/views/Emails/template.html.twig', array('order' => $order)
-		    	), 'text/html');
-
+		$message = new \Swift_Message('Billet(s) Musée du Louvre', 'Nouvelle réservation.');
+		$message->setFrom($this->from)->setTo($order->getEmail());
 		$this->mailer->send($message);
 	}
 

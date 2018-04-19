@@ -112,7 +112,7 @@ class DefaultController extends Controller
     	$em->flush();
 
     	$request->getSession()->clear();
-    	return $this->redirectToRoute('app_index');
+    	return $this->render('confirmation.html.twig');
     }
 
 }
