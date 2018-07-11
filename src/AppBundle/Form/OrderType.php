@@ -19,15 +19,18 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('bookingDate', DateType::class, array(
+                  'label' => 'Date de réservation',
                   'widget' => 'single_text', 
                   'html5' => false, 
                   'model_timezone' => 'Europe/Paris',
                   'format' => 'dd-MM-yyyy', 
                   'attr' => array('class' => 'picker', 'onFocus' => 'this.blur()')))
                 ->add('wholeDay', ChoiceType::class, array(
+                  'label' => 'Type de billet',
                   'choices' => array('Journée entière' => true, 'Demi-journée' => false), 
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
+                  'label' => 'Quantité',
                   'choices' => array_combine(range(1,10), range(1,10))))
                 ->add('Continuer', SubmitType::class);
 

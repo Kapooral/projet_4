@@ -13,7 +13,29 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3 mt-5">
-            	{{ form(form ) }}
+            	{{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.bookingDate) }}
+                    {{ form_errors(form.bookingDate) }}
+                    {{ form_widget(form.bookingDate, {'attr' : {'class' : 'picker'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.wholeDay) }}
+                    {{ form_errors(form.wholeDay) }}
+                    {{ form_widget(form.wholeDay) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.quantity) }}
+                    {{ form_errors(form.quantity) }}
+                    {{ form_widget(form.quantity) }}
+                </div>
+
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

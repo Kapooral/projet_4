@@ -34,6 +34,11 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+
+    appbundle.validator.valide_date:
+        class: AppBundle\Validator\ValideDateValidator
+        public: true
+
     appbundle.validator.overbooking:
         class: AppBundle\Validator\OverbookingValidator
         arguments:
@@ -66,6 +71,7 @@ services:
         class: AppBundle\OrderPrice\OrderPrice
         arguments:
             - "@appbundle.date_service"
+            - "@request_stack"
             - '%baby%'
             - '%child%'
             - '%normal%'

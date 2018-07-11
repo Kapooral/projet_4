@@ -120,22 +120,22 @@
       </div>
     </section>
 
-    {% block javascripts %}
+    {% javascripts 
+        'bundles/app/vendor/jquery/jquery.min.js'
+        'bundles/app/vendor/bootstrap/js/bootstrap.bundle.min.js'
+        'bundles/app/vendor/jquery/jquery-ui.js'
+        'bundles/app/vendor/jquery-easing/jquery.easing.min.js'
+        'bundles/app/vendor/scrollreveal/scrollreveal.min.js'
+        'bundles/app/vendor/magnific-popup/jquery.magnific-popup.min.js'
+        'bundles/app/js/creative.min.js'
+        'bundles/app/js/main.js' %}
 
-        {% javascripts 
-            'bundles/app/vendor/jquery/jquery.min.js'
-            'bundles/app/vendor/bootstrap/js/bootstrap.bundle.min.js'
-            'bundles/app/vendor/jquery/jquery-ui.js'
-            'bundles/app/vendor/jquery-easing/jquery.easing.min.js'
-            'bundles/app/vendor/scrollreveal/scrollreveal.min.js'
-            'bundles/app/vendor/magnific-popup/jquery.magnific-popup.min.js'
-            'bundles/app/js/creative.min.js'
-            'bundles/app/js/main.js' %}
+      <script type="text/javascript" src="{{ asset_url }}"></script>
 
-          <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
-        {% endjavascripts %}
-    
+    {% block js %}
+
     {% endblock %}
 
   </body>

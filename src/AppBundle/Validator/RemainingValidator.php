@@ -1,5 +1,4 @@
 <?php 
-
 // src/AppBundle/Validator/RemainingValidator.php
 
 namespace AppBundle\Validator;

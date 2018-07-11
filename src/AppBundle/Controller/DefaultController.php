@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Order;
 use AppBundle\Form\OrderType;
 use AppBundle\Form\OrderChildType;
@@ -78,27 +79,12 @@ class DefaultController extends Controller
     	}
     	elseif($request->isMethod('POST'))
     	{
-    		$orderPrice = $this->container->get('appbundle.order_price');
+    		$orderPrice = $this->get('appbundle.order_price');
     		$totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order')) * 100;
-    		\Stripe\Stripe::setApiKey('sk_test_Ce6DBxnu8smTNyzF2TokYRIO');
-
-    		try
-    		{
-	    		$charge = \Stripe\Charge::create(array(
-	    			"amount" => $totalPrice,
-	    			"currency" => 'eur',
-	    			"description" => 'Billet(s) Musée du Louvre',
-	    			"source" => $request->request->get('stripeToken')
-	    		));
-    		} 
-    		catch (\Stripe\Error\Card | \Stripe\Error\RateLimit | \Stripe\Error\InvalidRequest | \Stripe\Error\Authentication | \Stripe\Error\ApiConnection | \Stripe\Error\Base | Exception $e)
-    		{
-                $message = 'Une erreur est survenue. Votre paiement n\'a pas été effectué, veuillez recommencer.';
-    			return $this->redirectToRoute('app_summary');
-    		}
-
-            $request->getSession()->get('order')->setOrderCode($charge->id);
-    		return $this->redirectToRoute('app_confirmation');
+    		if ($orderPrice->payment($totalPrice))
+            {
+                return $this->redirectToRoute('app_confirmation');
+            }
     	}
 
     	return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order')));

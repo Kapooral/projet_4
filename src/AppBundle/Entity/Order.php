@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Validator\Overbooking;
 use AppBundle\Validator\Remaining;
+use AppBundle\Validator\ValideDate;
 
 /**
  * Order
@@ -41,6 +42,7 @@ class Order
      * @ORM\Column(name="bookingDate", type="date")
      * @Assert\DateTime(message="Le format de la date est incorrect.")
      * @Overbooking
+     * @ValideDate
      */
     private $bookingDate;
 
@@ -62,7 +64,7 @@ class Order
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
-     * @Assert\Type("integer")
+     * @Assert\Type(type="integer", message="La quantité doit être un chiffre.")
      * @Remaining
      */
     private $quantity;
