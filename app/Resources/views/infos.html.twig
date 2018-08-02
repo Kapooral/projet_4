@@ -46,10 +46,18 @@
 
 			                {{ form_rest(form) }}
 
-			                <a href="{{ path('app_booking') }}" class="mt-4 genric-btn info-border circle arrow">Retour</a>
-							<button type="submit" class="mt-4 genric-btn info-border circle arrow pull-right">Continuer<span class="lnr lnr-arrow-right"></span></button>
+			                <p class="mt-4">
+								Veuillez vérifier vos informations de commande avant de continuer. <br/>
+								Un justificatif d'identité vous sera demandé lors de votre visite.
+							</p>
+
+			                <div>
+				                <a href="{{ path('app_booking') }}" class="mt-4 genric-btn info-border circle arrow">Retour</a>
+								<button type="submit" class="mt-4 genric-btn info-border circle arrow pull-right">Continuer<span class="lnr lnr-arrow-right"></span></button>
+							</div>
 
 							{{ form_end(form) }}
+
 						</div>
 					</div>
 				</div>
