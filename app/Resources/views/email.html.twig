@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<body>
+
+		<div>
+			<h1>Musée du Louvre - Billet</h1>
+			<img src="{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}/bundles/app/template/img/logo.jpg" alt="logo" />
+			<p>Cet e-mail sert de billet d'entrée. Veuillez ne pas le supprimer tant que la visite n'a pas été effectuée !</p>
+		</div>
+
+		<div>
+		  	<h4>Code de réservation : <br/>{{ order.orderCode }}</h4>
+		  	<h4>Date de réservation : {{ order.bookingDate | date('d-m-Y') }}</h4>
+		  	<h4>Prix : {{ price | number_format(2, '.', ' ') }} €</h4>
+		</div>							
+
+		<div>
+			<h4>Pour les personnes suivantes :</h4>
+			{% for ticket in order.tickets %}
+
+			<p>{{ ticket.lastName }} {{ ticket.name }}</p>
+
+			{% endfor %}
+		</div>
+
+		<div>
+			<p>Vous devrez vous munir d'un justificatif d'identité lors de votre visite.</p>
+		</div>
+	</body>
+</html>
