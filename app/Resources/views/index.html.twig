@@ -1,143 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends '::layout.html.twig' %}
 
-  <head>
+		{% block content %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+		<!-- start banner Area -->
+		<section class="banner-area relative" id="home">
+			<div class="overlay overlay-bg"></div>	
+			<div class="container">
+				<div class="row fullscreen d-flex align-items-center justify-content-center">
+					<div class="banner-content col-lg-8">
+						<h6 class="text-white">Openning on 21st February, 2018</h6>
+						<h1 class="text-white">
+							Exhibition on Modern Era				
+						</h1>
+						<p class="pt-20 pb-20 text-white">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.  sed do eiusmod tempor incididunt..
+						</p>
+						<a href="{{ path('app_booking') }}" class="primary-btn text-uppercase">Réserver</a>
+					</div>											
+				</div>
+			</div>					
+		</section>
+		<!-- End banner Area -->	
 
-    <title>{% block title %}Musée du Louvre{% endblock %}</title>
+		<!-- Start service Area -->
+		<section class="service-area pt-100" id="about">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="single-service">
+						  <span class="lnr lnr-clock"></span>
+						  <h4>Openning Hours</h4>
+						  <p>
+						  	Mon - Fri: 10.00am to 05.00pm
+							Sat: 12.00pm to 03.00 pm
+							Sunday Closed
+						  </p>
+						</div>							
+					</div>
+					<div class="col-lg-4">
+						<div class="single-service">
+						  <span class="lnr lnr-rocket"></span>
+						  <h4>Ongoing Exhibitions</h4>
+						  <p>
+						  	Mon - Fri: 10.00am to 05.00pm
+							Sat: 12.00pm to 03.00 pm
+							Sunday Closed
+						  </p>
+						</div>							
+					</div>
+					<div class="col-lg-4">
+						<div class="single-service">
+						  <span class="lnr lnr-briefcase"></span>
+						  <h4>Openning Events</h4>
+						  <p>
+						  	Mon - Fri: 10.00am to 05.00pm
+							Sat: 12.00pm to 03.00 pm
+							Sunday Closed
+						  </p>
+						</div>							
+					</div>												
+				</div>
+			</div>	
+		</section>
+		<!-- End service Area -->
+		
+		<!-- Start quote Area -->
+		<section class="quote-area section-gap">
+			<div class="container">				
+				<div class="row">
+					<div class="col-lg-6 quote-left">
+						<h1>
+							<span>Music</span> gives soul to the universe, <br>
+							wings to the <span>mind</span>, flight <br>
+							to the <span>imagination</span>.
+						</h1>
+					</div>
+					<div class="col-lg-6 quote-right">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						</p>
+					</div>
+				</div>
+			</div>	
+		</section>
+		<!-- End quote Area -->
 
-    {% stylesheets filter='cssrewrite' 
-        'bundles/app/vendor/bootstrap/css/bootstrap.min.css'
-        'bundles/app/vendor/font-awesome/css/font-awesome.min.css'
-        'bundles/app/vendor/magnific-popup/magnific-popup.css'
-        'bundles/app/css/jquery-ui.css'
-        'bundles/app/css/creative.min.css' %}
+		
+	
+		<!-- Start upcoming-event Area -->
+		<section class="upcoming-event-area section-gap" id="events">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-60 col-lg-10">
+						<div class="title text-center">
+							<h1 class="mb-10">Checkout our Upcoming Events</h1>
+							<p>Who are in extremely love with eco friendly system.</p>
+						</div>
+					</div>
+				</div>						
+				<div class="row">
+					<div class="col-lg-6 event-left">
+						<div class="single-events">
+							<img class="img-fluid" src="{{ asset('bundles/app/template/img/u1.jpg') }}" alt="">
+							<a href="#"><h4>Event on the rock solid carbon</h4></a>
+							<h6><span>21st February</span> at Central government museum</h6>
+							<p>
+								inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially.
+							</p>
+						</div>
+						<div class="single-events">
+							<img class="img-fluid" src="{{ asset('bundles/app/template/img/u3.jpg') }}" alt="">
+							<a href="#"><h4>Event on the rock solid carbon</h4></a>
+							<h6><span>21st February</span> at Central government museum</h6>
+							<p>
+								inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially.
+							</p>
+						</div>							
+					</div>
+					<div class="col-lg-6 event-right">
+						<div class="single-events">
+							<a href="#"><h4>Event on the rock solid carbon</h4></a>
+							<h6><span>21st February</span> at Central government museum</h6>
+							<p>
+								inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially.
+							</p>
+							<img class="img-fluid" src="{{ asset('bundles/app/template/img/u2.jpg') }}" alt="">
+						</div>
+						<div class="single-events">
+							
+							<a href="#"><h4>Event on the rock solid carbon</h4></a>
+							<h6><span>21st February</span> at Central government museum</h6>
+							<p>
+								inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially.
+							</p>
+							<img class="img-fluid" src="{{ asset('bundles/app/template/img/u4.jpg') }}" alt="">
+						</div>							
+					</div>
+				</div>
+			</div>	
+		</section>
+		<!-- End upcoming-event Area -->
+		
 
-        <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
+		<!-- Start gallery Area -->
+		<section class="gallery-area section-gap" id="gallery">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-70 col-lg-8">
+						<div class="title text-center">
+							<h1 class="mb-10 text-white">Galerie d'exposition</h1>
+							<p>Quelques une de nos expositions.</p>
+						</div>
+					</div>
+				</div>						
+				<div id="grid-container" class="row">
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g1.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g1.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g2.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g2.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g3.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g3.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g4.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g4.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g5.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g5.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g6.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g6.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g7.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g7.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g8.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g8.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g9.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g9.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g10.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g10.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g11.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g11.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g12.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g12.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g4.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g4.jpg') }}"></a>
+					<a class="single-gallery" href="{{ asset('bundles/app/template/img/g5.jpg') }}"><img class="grid-item" src="{{ asset('bundles/app/template/img/g5.jpg') }}"></a>						
+				</div>	
+			</div>	
+		</section>
+		<!-- End gallery Area -->
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-
-  </head>
-
-  <body id="page-top">
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Musée du Louvre</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <header class="masthead text-center text-white d-flex">
-      <div class="container my-auto">
-        <div class="row">
-          <div class="col-lg-10 mx-auto">
-            <h1 class="text-uppercase">
-              <strong>Your Favorite Source of Free Bootstrap Themes</strong>
-            </h1>
-            <hr>
-          </div>
-          <div class="col-lg-8 mx-auto">
-            <p class="text-faded mb-5">Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!</p>
-            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">Réserver</a>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section id="services">
-
-      {% block form %}
-      {% endblock %}
-      
-    </section>
+		{% endblock %}
 
 
 
-    <section class="bg-primary" id="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading text-white">Informations pratiques</h2>
-            <hr class="light my-4">
-            <p class="text-faded mb-4">Horaires d'ouverture : 9h-19h. <br/>
-            Le musée est fermé tous les mardis, le 1er mai, le 1er novembre et le 25 décembre.</p>
-            <p class="text-faded mb-4">
-              En métro : lignes 1 et 7, station "Palais-Royal / Musée du Louvre"; ligne 14, station "Pyramides".<br/>
-              En voiture : un parc de stationnement souterrain est accessible par l'avenue du Général-Lemonnier, tous les jours de 7 h 00 à 23 h 00.</p>
-            <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading">Contactez-nous !</h2>
-            <hr class="my-4">
-            <p class="mb-5">Pour une demande d'informations supplémentaires, vous pouvez nous joindre par téléphone ou par e-mail.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 ml-auto text-center">
-            <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
-            <p>0123456789</p>
-          </div>
-          <div class="col-lg-4 mr-auto text-center">
-            <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
-            <p>
-              <a href="mailto:contact@museedulouvre.fr">contact@museedulouvre.fr</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {% javascripts 
-        'bundles/app/vendor/jquery/jquery.min.js'
-        'bundles/app/vendor/bootstrap/js/bootstrap.bundle.min.js'
-        'bundles/app/vendor/jquery/jquery-ui.js'
-        'bundles/app/vendor/jquery-easing/jquery.easing.min.js'
-        'bundles/app/vendor/scrollreveal/scrollreveal.min.js'
-        'bundles/app/vendor/magnific-popup/jquery.magnific-popup.min.js'
-        'bundles/app/js/creative.min.js'
-        'bundles/app/js/main.js' %}
-
-      <script type="text/javascript" src="{{ asset_url }}"></script>
-
-    {% endjavascripts %}
-
-    {% block js %}
-
-    {% endblock %}
-
-  </body>
-
-</html>

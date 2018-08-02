@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Page de confirmation</title>
-	</head>
-		<body>
-			<p>Merci d'avoir réservé !</p>
-		</body>
-</html>
+{% extends '::layout.html.twig' %}
+
+		{% block content %}
+
+				<!-- start banner Area -->
+		<section class="banner-area relative" id="home">	
+			<div class="overlay overlay-bg"></div>
+			<div class="container">
+				<div class="row d-flex align-items-center justify-content-center">
+					<div class="about-content col-lg-12">
+						<h1 class="text-white">
+							Confirmation			
+						</h1>
+					</div>											
+				</div>
+			</div>
+		</section>
+		<!-- End banner Area -->
+
+		<!-- Start service Area -->
+		<section class="service-area pt-100" id="about">
+			<div class="container">
+				<div class="row d-flex align-items-center justify-content-center">
+					<div class="col-lg-4 mb-3">
+						<div class="single-service">
+							<span class="lnr lnr-checkmark-circle"></span>
+						  <h4>Paiement effectué !</h4>
+						  <p>
+						  	Veuillez vérifier l'adresse e-mail renseignée pour avoir vos billets.
+						  </p>
+						  <p>
+						  	Merci pour votre confiance,<br/>
+						  	À bientôt !
+						  </p>
+						</div>							
+					</div>							
+				</div>
+        	</div>
+		</section>
+		<!-- End service Area -->
+
+		{% endblock %}

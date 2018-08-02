@@ -3,12 +3,11 @@
 namespace AppBundle\OrderPrice;
 
 use AppBundle\Entity\Order;
-use AppBundle\DateService\Dateservice;
+use AppBundle\Entity\Ticket;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class OrderPrice
 {
-	private $dateService;
 	private $request;
 	private $baby;
 	private $child;
@@ -16,15 +15,22 @@ class OrderPrice
 	private $senior;
 	private $reduce;
 
-	public function __construct(DateService $dateService, RequestStack $request, $baby, $child, $normal, $senior, $reduce)
+	public function __construct(RequestStack $request, $baby, $child, $normal, $senior, $reduce)
 	{
-		$this->dateService = $dateService;
 		$this->request = $request->getCurrentRequest();
 		$this->baby = $baby;
 		$this->child = $child;
 		$this->normal = $normal;
 		$this->senior = $senior;
 		$this->reduce = $reduce;
+	}
+
+	public function getYearsOld(Ticket $ticket)
+	{
+		$today = new \DateTime();
+		$yearsOld = $ticket->getBirthDate()->diff($today)->y;
+
+		return $yearsOld;
 	}
 
 	public function setTotalPrice(Order $order)
@@ -34,7 +40,7 @@ class OrderPrice
 
 		foreach($tickets as $ticket)
 		{
-			$age = $this->dateService->getYearsOld($ticket);
+			$age = $this->getYearsOld($ticket);
 
 			if($age < 4)
 			{
@@ -82,9 +88,10 @@ class OrderPrice
 		return $totalPrice;
 	}
 
-	public function payment($price)
+	public function payment($price, $skey)
 	{
-		\Stripe\Stripe::setApiKey('sk_test_Ce6DBxnu8smTNyzF2TokYRIO');
+		\Stripe\Stripe::setApiKey($skey);
+		$price = $price * 100;
 
 		try
 		{
@@ -105,7 +112,6 @@ class OrderPrice
 		}
 		catch (\Stripe\Error\Card $e)
 		{
-            $request->getSession()->getFlashBag()->add('error', 'Une erreur est survenue. Votre paiement n\'a pas été effectué, veuillez recommencer.');
 			return false;
 		}
 		catch (\Stripe\Error\RateLimit $e)

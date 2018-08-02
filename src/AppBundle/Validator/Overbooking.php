@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraint;
 class Overbooking extends Constraint
 {
 	public $message = "Le nombre maximum de visiteurs est atteint pour ce jour.";
+	public $message_unavailable = "Cette date est indisponible.";
 
 	public function validateBy()
 	{

@@ -1,88 +1,137 @@
-{% extends '::index.html.twig' %}
+{% extends '::layout.html.twig' %}
+	
+		{% block steelshit %}
 
-{% block form %}
+		<link rel="stylesheet" href="{{ asset('bundles/app/css/stripe.css') }}" type="text/css" />
 
-	<div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Récapitulatif de votre commande</h2>
-                <hr class="my-4">
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3 mt-5">
-            	<form action="{{ path('app_summary') }}" method="post" id="payment-form">
-            		<div class="form-row">
-            			<label for="card-element">Carte de paiement</label>
-            			<div id="card-element"></div>
-            			<div id="card-errors" role="alert"></div>
-            		</div>
-            		<button>Payer</button>
-            	</form>
-            </div>
-        </div>
-    </div>
+		{% endblock %}
 
+		{% block content %}
 
-{% endblock %}
+		<!-- start banner Area -->
+		<section class="banner-area relative" id="home">	
+			<div class="overlay overlay-bg"></div>
+			<div class="container">
+				<div class="row d-flex align-items-center justify-content-center">
+					<div class="about-content col-lg-12">
+						<h1 class="text-white">
+							Récapitulatif			
+						</h1>
+						<p class="text-white link-nav"><a href="{{ path('app_booking') }}">Réservation</a>  <span class="lnr lnr-arrow-right"></span>  <a href="{{ path('app_info') }}">Informations</a>  <span class="lnr lnr-arrow-right"></span>  Récapitulatif</p>
+					</div>											
+				</div>
+			</div>
+		</section>
+		<!-- End banner Area -->
 
-{% block js %}
+		<!-- Start service Area -->
+		<section class="service-area pt-100" id="about">
+			<div class="container">
 
-	<script src="https://js.stripe.com/v3/"></script>
+				{% for message in app.flashes('error') %}
 
-	<script>
+                    <div class="alert alert-danger alert-dismissable mb-5">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }}
+                    </div>
 
-        var stripe = Stripe('pk_test_YA2sOXF30M6MCATJH0JehVh5');
-        var elements = stripe.elements();
+                {% endfor %}
 
-        var style = {
-            base: {
-                fontSize: '16px',
-                color: "#32325d",
-            }
-        };
+				<h3 class="text-heading">Récapitulatif de votre commande</h3>
+				<div class="row d-flex align-items-center justify-content-center">
+					{% for ticket in order.tickets %}
 
-        var card = elements.create('card', {style: style});
-        card.mount('#card-element');
+					<div class="col-lg-4 mb-3">
+						<div class="single-service">
+						  <h4>{{ ticket.lastName }} {{ ticket.name }}</h4>
+						  <p>
+						  	{{ ticket.birthDate | date('d-m-Y') }} <br/>
+						  	{{ ticket.country }} <br/>
+						  	{{ ticket.type }} <br/>
+						  	{{ ticket.price | number_format(2, '.', ' ') }} € <br/>
+						  </p>
+						</div>							
+					</div>
 
-        card.addEventListener('change', function(event) {
-        var displayError = document.getElementById('card-errors');
+					{% endfor %}								
+				</div>
 
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-        });
+				<a href="{{ path('app_info') }}" class="mt-4 genric-btn info-border circle arrow">Modifier les informations</a>
 
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
+				<div class="single-service mt-5">
+					<h4>Total à payer : {{ price | number_format(2, '.', ' ') }} €</h4>
+					<div class="row d-flex align-items-center justify-content-center">
+			            <div class="col-lg-6 mt-3">
+			            	<form action="{{ path('app_summary') }}" method="post" id="payment-form">
+			        			<label for="card-element">Carte de paiement :</label>
+			        			<div id="card-element"></div>
+			        			<div id="card-errors" role="alert"></div> <br/>
+			            		<button class="mt-2 pull-right genric-btn info-border circle arrow">Payer</button>
+			            	</form>
+			            </div>
+			        </div>
+				</div>
+        	</div>
+		</section>
+		<!-- End service Area -->
 
-            stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                stripeTokenHandler(result.token);
-            }
-            });
-        });
+		{% endblock %}
 
-        function stripeTokenHandler(token) {
+		{% block js %}
 
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
+			<script src="https://js.stripe.com/v3/"></script>
 
-            form.submit();
-        }
+			<script>
 
-    </script>
+		        var stripe = Stripe('pk_test_YA2sOXF30M6MCATJH0JehVh5');
+		        var elements = stripe.elements();
 
-{% endblock %}
+		        var style = {
+		            base: {
+		                fontSize: '16px',
+		                color: "#32325d",
+		            }
+		        };
+
+		        var card = elements.create('card', {style: style});
+		        card.mount('#card-element');
+
+		        card.addEventListener('change', function(event) {
+		        var displayError = document.getElementById('card-errors');
+
+		        if (event.error) {
+		            displayError.textContent = event.error.message;
+		        } else {
+		            displayError.textContent = '';
+		        }
+		        });
+
+		        var form = document.getElementById('payment-form');
+		        form.addEventListener('submit', function(event) {
+		            event.preventDefault();
+
+		            stripe.createToken(card).then(function(result) {
+		            if (result.error) {
+		                var errorElement = document.getElementById('card-errors');
+		                errorElement.textContent = result.error.message;
+		            } else {
+		                stripeTokenHandler(result.token);
+		            }
+		            });
+		        });
+
+		        function stripeTokenHandler(token) {
+
+		            var form = document.getElementById('payment-form');
+		            var hiddenInput = document.createElement('input');
+		            hiddenInput.setAttribute('type', 'hidden');
+		            hiddenInput.setAttribute('name', 'stripeToken');
+		            hiddenInput.setAttribute('value', token.id);
+		            form.appendChild(hiddenInput);
+
+		            form.submit();
+		        }
+
+		    </script>
+
+		{% endblock %}

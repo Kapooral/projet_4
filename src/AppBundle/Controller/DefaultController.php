@@ -14,16 +14,14 @@ use AppBundle\Form\TicketType;
 
 class DefaultController extends Controller
 {
-    public function indexAction(Request $request)
+	public function indexAction()
+	{
+		return $this->render('index.html.twig');
+	}
+
+    public function bookingAction(Request $request)
     {
         $order = new Order();
-    	$dateService = $this->container->get('appbundle.date_service');
-
-    	if(!$dateService->isFullDay())
-    	{
-    		$order->setWholeDay(false);
-    	}
-
     	$form = $this->createForm(OrderType::class, $order);
 
     	if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
@@ -53,77 +51,47 @@ class DefaultController extends Controller
 
     	if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
     	{
-    		if(!$form->get('cgv')->getData())
-    		{
-    			$request->getSession()->clear();
-    			return $this->redirectToRoute('app_index');
-    		}
-    		else
-    		{
-    			return $this->redirectToRoute('app_summary');
-    		}
+            $orderPrice = $this->get('appbundle.order_price');
+            $totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order'));
+            $request->getSession()->set('totalPrice', $totalPrice);
+    		return $this->redirectToRoute('app_summary');
     	}
 
-    	return $this->render('info.html.twig', array('form' => $form->createView()));
+    	return $this->render('infos.html.twig', array('form' => $form->createView()));
     }
 
     public function summaryAction(Request $request)
     {
-    	if(!$request->getSession()->has('order'))
-    	{
-    		return $this->redirectToRoute('app_index');
-    	}
-    	elseif($request->getSession()->get('order')->getEmail() == null)
+    	if(!$request->getSession()->has('order') || !$request->getSession()->has('totalPrice') || $request->getSession()->get('order')->getEmail() == null)
     	{
     		return $this->redirectToRoute('app_info');
     	}
     	elseif($request->isMethod('POST'))
     	{
     		$orderPrice = $this->get('appbundle.order_price');
-    		$totalPrice = $orderPrice->setTotalPrice($request->getSession()->get('order')) * 100;
-    		if ($orderPrice->payment($totalPrice))
+    		if ($orderPrice->payment($request->getSession()->get('totalPrice'), $this->getParameter('stripe_api')))
             {
                 return $this->redirectToRoute('app_confirmation');
             }
+            $request->getSession()->getFlashBag()->add('error', 'Votre paiement n\'a pas été effectué, veuillez reessayer.');
     	}
 
-    	return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order')));
+    	return $this->render('summary.html.twig', array('order' => $request->getSession()->get('order'), 'price' => $request->getSession()->get('totalPrice')));
     }
 
     public function confirmationAction(Request $request)
     {
-        if(!$request->getSession()->has('order'))
+        if (!$request->getSession()->has('order') || $request->getSession()->get('order')->getOrderCode() === null)
         {
-            return $this->redirectToRoute('app_index');
-        }
-        elseif($request->getSession()->get('order')->getOrderCode() == null)
-        {
-            return $this->redirectToRoute('app_summary');
+        	return $this->redirectToRoute('app_summary');
         }
 
-        try
-        {
-            \Stripe\Stripe::setApiKey('sk_test_Ce6DBxnu8smTNyzF2TokYRIO');
-            $charge = \Stripe\Charge::retrieve($request->getSession()->get('order')->getOrderCode());
-        }
-        catch(\Stripe\Error\InvalidRequest $e)
-        {
-            $message = 'Une erreur est survenue. Votre paiement n\'a pas été effectué, veuillez recommencer.';
-            return $this->redirectToRoute('app_summary');
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($request->getSession()->get('order'));
+        $em->flush();
         
-        if(!$charge->status == "succeeded")
-        {
-            $message = 'Une erreur est survenue. Votre paiement n\'a pas été effectué, veuillez recommencer.';
-            return $this->redirectToRoute('app_summary');
-        }
-
-    	$em = $this->getDoctrine()->getManager();
-    	$em->persist($request->getSession()->get('order'));
-    	$em->flush();
-
-    	$request->getSession()->clear();
-    	return $this->render('confirmation.html.twig');
+        $request->getSession()->clear();
+        return $this->render('confirmation.html.twig');
     }
 
 }

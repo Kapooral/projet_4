@@ -31,22 +31,7 @@ class OrderType extends AbstractType
                   'expanded' => true))
                 ->add('quantity',ChoiceType::class, array(
                   'label' => 'Quantité',
-                  'choices' => array_combine(range(1,10), range(1,10))))
-                ->add('Continuer', SubmitType::class);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-          $order = $event->getData();
-
-          if($order === null)
-          {
-            return;
-          }
-
-          if(!$order->getWholeDay())
-          {
-            $event->getForm()->add('wholeDay', ChoiceType::class, array('choices' => array('Demi-journée' => false), 'expanded' => true));
-          }
-        });
+                  'choices' => array_combine(range(1,10), range(1,10))));
     }/**
      * {@inheritdoc}
      */
@@ -64,6 +49,4 @@ class OrderType extends AbstractType
     {
         return 'appbundle_order';
     }
-
-
 }

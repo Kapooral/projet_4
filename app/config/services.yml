@@ -34,9 +34,8 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-
-    appbundle.validator.valide_date:
-        class: AppBundle\Validator\ValideDateValidator
+    appbundle.validator.whole_day:
+        class: AppBundle\Validator\WholeDayValidator
         public: true
 
     appbundle.validator.overbooking:
@@ -53,10 +52,6 @@ services:
             - '%limit%'
         public: true
 
-    appbundle.date_service:
-        class: AppBundle\DateService\DateService
-        public: true
-
     appbundle.order_mailer:
         class: AppBundle\Email\OrderMailer
         arguments:
@@ -65,12 +60,10 @@ services:
         public: true
         tags:
             - { name: doctrine.event_listener, event: postPersist }
-        
 
     appbundle.order_price:
         class: AppBundle\OrderPrice\OrderPrice
         arguments:
-            - "@appbundle.date_service"
             - "@request_stack"
             - '%baby%'
             - '%child%'

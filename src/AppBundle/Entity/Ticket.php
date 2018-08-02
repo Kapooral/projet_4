@@ -27,7 +27,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\Length(min=2, max=50, minMessage="Le prénom doit être de {{ limit }} caractères minimum.", maxMessage="Le prénom ne peut excéder {{ limit }} caractères.")
+     * @Assert\Length(min=2, max=50, minMessage="Le prénom doit être de {{ limit }} lettres minimum.", maxMessage="Le prénom ne peut excéder {{ limit }} lettres.")
      */
     private $name;
 
@@ -35,7 +35,7 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255)
-     * @Assert\Length(min=2, max=50, minMessage="Le nom doit être de {{ limit }} caractères minimum.", maxMessage="Le nom ne peut excéder {{ limit }} caractères.")
+     * @Assert\Length(min=2, max=50, minMessage="Le nom doit être de {{ limit }} lettres minimum.", maxMessage="Le nom ne peut excéder {{ limit }} lettres.")
      */
     private $lastName;
 

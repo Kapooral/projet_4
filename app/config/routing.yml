@@ -3,13 +3,18 @@ app_index:
     defaults:
       _controller: AppBundle:Default:index
 
+app_booking:
+    path:     /reservation
+    defaults:
+      _controller: AppBundle:Default:booking
+
 app_info:
-    path:      /info
+    path:      /informations
     defaults:
       _controller: AppBundle:Default:info
 
 app_summary:
-    path:      /summary
+    path:      /recapitulatif
     defaults:
       _controller: AppBundle:Default:summary
 

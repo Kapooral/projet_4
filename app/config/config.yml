@@ -13,6 +13,7 @@ parameters:
     senior: 12
     reduce: 10
     limit: 1000
+    stripe_api: sk_test_Ce6DBxnu8smTNyzF2TokYRIO
 
 framework:
     #esi: ~
@@ -78,9 +79,3 @@ swiftmailer:
     port: '%mailer_port%'
     encryption: '%mailer_encryption%'
     spool: { type: memory }
-
-assetic:
-    debug:          '%kernel.debug%'
-    use_controller: '%kernel.debug%'
-    filters:
-        cssrewrite: ~

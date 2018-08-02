@@ -1,49 +1,70 @@
-{% extends "::index.html.twig" %}
+{% extends '::layout.html.twig' %}
+	
+		{% block steelshit %}
 
-{% block form %}
+		<link rel="stylesheet" href="{{ asset('bundles/app/css/jquery-ui.css') }}" type="text/css" />
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Réservation</h2>
-                <hr class="my-4">
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3 mt-5">
-            	{{ form_start(form) }}
-                {{ form_errors(form) }}
+		{% endblock %}
 
-                <div class="form-group">
-                    {{ form_label(form.bookingDate) }}
-                    {{ form_errors(form.bookingDate) }}
-                    {{ form_widget(form.bookingDate, {'attr' : {'class' : 'picker'}}) }}
-                </div>
+		{% block content %}
 
-                <div class="form-group">
-                    {{ form_label(form.wholeDay) }}
-                    {{ form_errors(form.wholeDay) }}
-                    {{ form_widget(form.wholeDay) }}
-                </div>
+		<!-- start banner Area -->
+		<section class="banner-area relative" id="home">	
+			<div class="overlay overlay-bg"></div>
+			<div class="container">
+				<div class="row d-flex align-items-center justify-content-center">
+					<div class="about-content col-lg-12">
+						<h1 class="text-white">
+							Réservation			
+						</h1>
+						<p class="text-white link-nav">Réservation</p>
+					</div>											
+				</div>
+			</div>
+		</section>
+		<!-- End banner Area -->
 
-                <div class="form-group">
-                    {{ form_label(form.quantity) }}
-                    {{ form_errors(form.quantity) }}
-                    {{ form_widget(form.quantity) }}
-                </div>
+		<div class="whole-wrap">
+			<div class="container">
+				<div class="section-top-border">
+					<div class="row d-flex justify-content-center">
+						<div class="col-lg-8 col-md-8">
+							{{ form_start(form) }}
+							{{ form_errors(form) }}
+							<div class="form-group">
+			                    {{ form_label(form.bookingDate) }}
+			                    {{ form_errors(form.bookingDate) }}
+			                    {{ form_widget(form.bookingDate) }}
+			                </div>
 
-                {{ form_rest(form) }}
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-    
-{% endblock %}
+			                <div class="form-group">
+			                    {{ form_label(form.wholeDay) }}
+			                    {{ form_errors(form.wholeDay) }}
+			                    {{ form_widget(form.wholeDay) }}
+			                </div>
 
-{% block javascript %}
+			                <div class="form-group">
+			                    {{ form_label(form.quantity) }}
+			                    {{ form_errors(form.quantity) }}
+			                    {{ form_widget(form.quantity) }}
+			                </div>
 
-    <script src="js/main.js"></script>
+			                {{ form_rest(form) }}
 
-{% endblock %}
+							<button type="submit" class="mt-4 genric-btn info-border circle arrow pull-right">Continuer<span class="lnr lnr-arrow-right"></span></button>
+
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}
+
+		{% block js %}
+
+		<script src="{{ asset('bundles/app/vendor/jquery/jquery-ui.js') }}"></script>
+		<script src="{{ asset('bundles/app/js/main.js') }}"></script>
+
+		{% endblock %}

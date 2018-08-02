@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Validator\Overbooking;
 use AppBundle\Validator\Remaining;
-use AppBundle\Validator\ValideDate;
+use AppBundle\Validator\WholeDay;
 
 /**
  * Order
@@ -42,7 +42,6 @@ class Order
      * @ORM\Column(name="bookingDate", type="date")
      * @Assert\DateTime(message="Le format de la date est incorrect.")
      * @Overbooking
-     * @ValideDate
      */
     private $bookingDate;
 
@@ -51,6 +50,7 @@ class Order
      *
      * @ORM\Column(name="whole_day", type="boolean")
      * @Assert\Type(type="bool", message="Votre choix est incorrect.")
+     * @WholeDay
      */
     private $wholeDay;
 
