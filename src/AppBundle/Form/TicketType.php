@@ -22,7 +22,9 @@ class TicketType extends AbstractType
                 ->add('lastName', TextType::class, array(
                   'label' => 'Nom de famille'))
                 ->add('country', CountryType::class, array(
-                  'label'=> 'Pays de résidence'))
+                  'label'=> 'Pays de résidence',
+                  'preferred_choices' => array(
+                    'FR')))
                 ->add('birthDate', BirthdayType::class, array(
                   'label' => 'Date de naissance',
                   'widget' => 'single_text',  

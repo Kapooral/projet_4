@@ -60,6 +60,8 @@
 
 				<div class="single-service mt-5">
 					<h4>Total à payer : {{ price | number_format(2, '.', ' ') }} €</h4>
+					<p class="mb-0">Adresse e-mail de réception :</p>
+					<h4 class="mt-0">{{ order.email }}</h4>
 					<div class="row d-flex align-items-center justify-content-center">
 			            <div class="col-lg-6 mt-3">
 			            	<form action="{{ path('app_summary') }}" method="post" id="payment-form">

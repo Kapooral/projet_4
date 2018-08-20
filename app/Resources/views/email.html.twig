@@ -10,7 +10,19 @@
 
 		<div>
 		  	<h4>Code de réservation : <br/>{{ order.orderCode }}</h4>
-		  	<h4>Date de réservation : {{ order.bookingDate | date('d-m-Y') }}</h4>
+	  		<h4>
+	  			Date de réservation : {{ order.bookingDate | date('d-m-Y') }}
+	  		</h4>
+		  	{% if order.wholeDay == 1 %}
+		  		<h4>
+		  			Type de billet : Billet journée entière
+		  		</h4>
+		  	{% else %}
+		  		<h4>
+		  			Type de billet : Billet demi-journée (à partir de 14h.)
+		  		</h4>
+		  	{% endif %}
+		  	
 		  	<h4>Prix : {{ price | number_format(2, '.', ' ') }} €</h4>
 		</div>							
 
@@ -18,13 +30,14 @@
 			<h4>Pour les personnes suivantes :</h4>
 			{% for ticket in order.tickets %}
 
-			<p>{{ ticket.lastName }} {{ ticket.name }}</p>
+			<h4>{{ ticket.lastName }} {{ ticket.name }}</h4>
 
 			{% endfor %}
 		</div>
 
 		<div>
 			<p>Vous devrez vous munir d'un justificatif d'identité lors de votre visite.</p>
+			<p>Il sera nécessaire de présenter sa carte d’étudiant, militaire ou équivalent lors de l’entrée pour les prix réduits.</p>
 		</div>
 	</body>
 </html>

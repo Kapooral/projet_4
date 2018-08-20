@@ -1,24 +1,3 @@
-app_index:
-    path:     /index
-    defaults:
-      _controller: AppBundle:Default:index
-
-app_booking:
-    path:     /reservation
-    defaults:
-      _controller: AppBundle:Default:booking
-
-app_info:
-    path:      /informations
-    defaults:
-      _controller: AppBundle:Default:info
-
-app_summary:
-    path:      /recapitulatif
-    defaults:
-      _controller: AppBundle:Default:summary
-
-app_confirmation:
-    path:      /confirmation
-    defaults:
-      _controller: AppBundle:Default:confirmation
+app:
+    resource: "@AppBundle/Controller/"
+    type: annotation

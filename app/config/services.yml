@@ -18,8 +18,6 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     AppBundle\:
         resource: '../../src/AppBundle/*'
-        # you can exclude directories or files
-        # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
     # controllers are imported separately to make sure they're public
@@ -34,40 +32,24 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    appbundle.validator.whole_day:
-        class: AppBundle\Validator\WholeDayValidator
-        public: true
-
-    appbundle.validator.overbooking:
-        class: AppBundle\Validator\OverbookingValidator
+    AppBundle\Validator\OverbookingValidator:
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - '%limit%'
-        public: true
+            $limit: '%limit%'
 
-    appbundle.validator.remaining:
-        class: AppBundle\Validator\RemainingValidator
+    AppBundle\Validator\RemainingValidator:
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - '%limit%'
-        public: true
+            $limit: '%limit%'
 
-    appbundle.order_mailer:
-        class: AppBundle\Email\OrderMailer
+    AppBundle\Email\OrderMailer:
         arguments:
-            - "@mailer"
-            - '%mailer_user%'
-        public: true
+            $from: '%mailer_user%'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
-    appbundle.order_price:
-        class: AppBundle\OrderPrice\OrderPrice
+    AppBundle\OrderPrice\OrderPrice:
         arguments:
-            - "@request_stack"
-            - '%baby%'
-            - '%child%'
-            - '%normal%'
-            - '%senior%'
-            - '%reduce%'
-        public: true
+            $baby: '%baby%'
+            $child: '%child%'
+            $normal: '%normal%'
+            $senior: '%senior%'
+            $reduce: '%reduce%'
