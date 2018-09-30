@@ -53,7 +53,7 @@ class DefaultController extends Controller
     public function infoAction(Request $request, OrderPrice $orderPrice)
     {
     	if (!$request->getSession()->has('order')) {
-    		return $this->redirectToRoute('app_index');
+    		return $this->redirectToRoute('app_booking');
     	}
     	$form = $this->createForm(OrderChildType::class, $request->getSession()->get('order'));
     	$form->handleRequest($request);
